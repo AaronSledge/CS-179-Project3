@@ -13,12 +13,12 @@ for i in range(1, -1, -1):
     for j in range(4):
         if (i == 0 and j == 0):
             print("/n")
-        print(i, j, end = " ")
+        print(m[i][j].location.x, m[i][j].location.y, end = " ")
 
 container = m[0][0]
 print(container.location.x)
 print(container.location.y)
-m = right(m, container.location.x, container.location.y)
+m = right(m, 0, 0)
 
 print("/n")
 print("/n")

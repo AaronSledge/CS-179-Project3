@@ -7,7 +7,7 @@ def matrix(listContainer):
   row = 2
   column = 4
   used_set = set()
-  matrix = [[Container(Location(i + 1, j + 1), 0, "UNUSED") for i in range(column)] for j in range(row)]
+  matrix = [[Container(Location(i + 1, j + 1), 0, "Test") for i in range(column)] for j in range(row)]
 
   for i in range(row - 1, -1, -1):
      for j in range(column):
