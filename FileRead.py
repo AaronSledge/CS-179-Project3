@@ -3,10 +3,11 @@
 #[01,03], {00101}, Fish for Wendys
 
 from Container import Container
+from Container import Location
 
 def FileRead(filename):
     file = open(filename)
-    listContainers = []
+    listContainers = set()
 
     while True:
         line = file.readline()
@@ -14,11 +15,27 @@ def FileRead(filename):
             splitLine = line.split(", ")
             if (len(splitLine) == 3):
                 try:
-                    location = splitLine[0]
+                    loc_line = splitLine[0]
+
+                    if(loc_line[1] == "0"):
+                        x = int(loc_line[2])
+                    else:
+                        print("Locations in wrong fromat in manifest exit")
+                        exit()
+
+                    if(loc_line[4] == "0"):
+                        y = int(loc_line[5])
+                    elif(loc_line[4] == "1"):
+                        y = int(loc_line[4]+loc_line[5])
+                    else:
+                        print("Locations in wrong fromat in manifest exit")
+                        exit()
+
+                    c_loc = Location(x, y)
                     weight = splitLine[1]
                     description = splitLine[2]
-                    container = Container(location, weight, description)
-                    listContainers.append(container)
+                    container = Container(c_loc, weight, description)
+                    listContainers.add(container)
                 except:
                     print("File in wrong format")
                     exit()
