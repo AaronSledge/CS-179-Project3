@@ -34,6 +34,8 @@ def FileRead(filename):
                     c_loc = Location(x, y)
                     weight = splitLine[1]
                     description = splitLine[2]
+                    if (description[-1] == "\n"):
+                        description = description[:-1]
                     container = Container(c_loc, weight, description)
                     listContainers.add(container)
                 except:
