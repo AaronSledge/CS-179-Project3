@@ -3,11 +3,11 @@ from Container import Container
 from Container import Location
 # input into our matrix a list of container objects
 
-def matrix(listContainer):
-  row = 2
-  column = 4
+def matrix(listContainer, row, col):
+  row = row
+  column = col
   used_set = set()
-  matrix = [[Container(Location(i + 1, j + 1), 0, "Test") for i in range(column)] for j in range(row)]
+  matrix = [[Container(Location(i + 1, j + 1), "{00000}", "Test") for i in range(column)] for j in range(row)]
 
   for i in range(row - 1, -1, -1):
      for j in range(column):
