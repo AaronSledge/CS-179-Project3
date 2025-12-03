@@ -3,6 +3,7 @@ from FileRead import FileRead
 from Matrix import matrix
 from Container import Ship
 from Operation import right, left, up, down
+from Astar import Astar
 
 # smallshiptest.txt stuff
 print("--Working with smallshiptest.txt file--")
@@ -63,6 +64,19 @@ filename = "smallshiptest2.txt"
 listContainers = FileRead(filename)
 ship = Ship(listContainers, False)
 m2 = matrix(ship.listContainers)
+
+# Michaels checks
+if (len(ship.listContainers) == 1): # check if there is only one container on the ship and if so it is already balanced
+    ship.isShipBalanced = True
+    print("Ship is balanced, no need to move anything.")
+elif (len(ship.listContainers) == 2): # check if there is only two containers and they are on opposite sides then the ship is balanced
+      container1 = ship.listContainers[0]
+      container2 = ship.listContainers[1]
+      if (container1.row <= 6 and container2.row > 6) or (container1.row > 6 and container2.row <= 6):
+          ship.isShipBalanced = True
+          print("Ship is balanced, no need to move anything.")
+else:
+    moveList, closed_set, m3 = Astar(m2, 8, 12)
 
 container = m2[0][0]
 m2 = up(m2, container.location.x - 1, container.location.y - 1)

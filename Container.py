@@ -1,8 +1,8 @@
 # Object called location to store the coordinates of a location read in from the file
 class Location:
     def __init__(self, x, y):
-        self.x = x
-        self.y = y
+        self.row = x
+        self.col = y
 
 # Object called container to store the location object, weight, and description of a container read in from file 
 class Container:
