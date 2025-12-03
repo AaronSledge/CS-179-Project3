@@ -41,7 +41,7 @@ def con1_balance_check(curr_state, prev_state):
     if(curr_state.dif_lr == 0):
         return True
     
-    elif(curr_state.dif_lr > prev_state.dif_lr): #need to check this. May cause problems
+    elif(curr_state.dif_lr == prev_state.dif_lr): #need to check this. May cause problems
         return True
     return False
 

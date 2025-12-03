@@ -1,19 +1,18 @@
-# start from the heaviest side
 from State import State
 from State import left_weight
 from State import right_weight
 from State import balance_calc
 from State import con1_balance_check
 from State import con2_balance_check
-from boundCheck import find_nearest_empty_space_left,  find_nearest_empty_space_right, pathToNewContainer, pathFromParkTocontainer, isEmpty
-from SetInclusion import inSet, addToSetAstar
+from boundCheck import find_nearest_empty_space_left, find_nearest_empty_space_right, pathToNewContainer, pathFromParkTocontainer, isEmpty
+from SetInclusion import inSet, addToSetUni
 from edgeCases import checkOneOnEachSide
 import copy
 import heapq
-from itertools import count
+from itertools import count #https://www.geeksforgeeks.org/python/python-itertools-count/#
 
 
-def Astar(matrix, row, col, maxActions):
+def Uniform_cost(matrix, row, col):
     og_lw = left_weight(matrix, row, col)
     og_rw = right_weight(matrix, row, col)
     dif_lr = balance_calc(og_lw, og_rw)
@@ -56,7 +55,7 @@ def Astar(matrix, row, col, maxActions):
         if(checkOneOnEachSide(curr_matrix, row, col) == True): #shipcase 3 edge case, 
             curr_state.balanced = True
 
-
+        
         if(curr_state.balanced == True):
             finished_matrix = copy.deepcopy(curr_matrix)
             while(curr_matrix != start_matrix):
@@ -88,9 +87,9 @@ def Astar(matrix, row, col, maxActions):
                                         moveList.append(actionList_parked)
                                     actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)
                                     if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
-                                        addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], cost, actionList, open_set, child, row, col, tieBreak, maxActions)
+                                        addToSetUni(curr_matrix, new_matrix, cost, actionList, open_set, child, row, col, tieBreak)
                                     elif(inSet(new_matrix, copy_open_set2) == True and ((cost + len(actionList)) < cost)):
-                                        addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], cost, actionList, open_set, child, row, col, tieBreak, maxActions)
+                                        addToSetUni(curr_matrix, new_matrix, cost, actionList, open_set, child, row, col, tieBreak)
                                 
                                 elif(curr_matrix[i][j].location.x == row and curr_matrix[i][j + 1].description == "UNUSED"): #if we are at top and we are allowed to move right
                                     if(isEmpty(curr_matrix, curr_matrix[i][j], curr_matrix[k][p]) == True):
@@ -103,9 +102,9 @@ def Astar(matrix, row, col, maxActions):
                                             moveList.append(actionList_parked)
                                         actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)
                                         if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
-                                            addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], cost, actionList, open_set, child, row, col, tieBreak, maxActions)
+                                            addToSetUni(curr_matrix, new_matrix, cost, actionList, open_set, child, row, col, tieBreak)
                                         elif(inSet(new_matrix, copy_open_set2) == True and ((cost + len(actionList)) < cost)):
-                                            addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], cost, actionList, open_set, child, row, col, tieBreak, maxActions)
+                                            addToSetUni(curr_matrix, new_matrix, cost, actionList, open_set, child, row, col, tieBreak)
                                 elif(curr_matrix[i + 1][j].description == "UNUSED"):
                                     if(isEmpty(curr_matrix, curr_matrix[i][j], curr_matrix[k][p]) == True):
                                         empty_space = curr_matrix[k][p]
@@ -118,9 +117,9 @@ def Astar(matrix, row, col, maxActions):
                                         
                                         actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)  
                                         if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
-                                            addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], cost, actionList, open_set, child, row, col, tieBreak, maxActions)
+                                            addToSetUni(curr_matrix, new_matrix, cost, actionList, open_set, child, row, col, tieBreak)
                                         elif(inSet(new_matrix, copy_open_set2) == True and ((cost + len(actionList)) < cost)):
-                                            addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], cost, actionList, open_set, child, row, col, tieBreak, maxActions)
+                                            addToSetUni(curr_matrix, new_matrix, cost, actionList, open_set, child, row, col, tieBreak)
                                 else:
                                  continue;
                 
@@ -130,6 +129,7 @@ def Astar(matrix, row, col, maxActions):
                     if(curr_matrix[i][j].description != "UNUSED" and curr_matrix[i][j].description != "NAN"):
                         for k in range(row - 1, -1, -1):
                             for p in range(int(col)):
+                                
                                 if(curr_matrix[i][j].location.x == 1 and curr_matrix[i + 1][j].description == "UNUSED"):
                                     empty_space = find_nearest_empty_space_left(curr_matrix, row, col, curr_matrix[i][j])
                                     new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
@@ -140,14 +140,14 @@ def Astar(matrix, row, col, maxActions):
                                         moveList.append(actionList_parked)
                                     actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)
                                     if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
-                                        addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], cost, actionList, open_set, child, row, col, tieBreak, maxActions)
+                                        addToSetUni(curr_matrix, new_matrix, cost, actionList, open_set, child, row, col, tieBreak)
                                     elif(inSet(new_matrix, copy_open_set2) == True and ((cost + len(actionList)) < cost)):
-                                        addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], cost, actionList, open_set, child, row, col, tieBreak, maxActions)
-                                    
-                                elif(curr_matrix[i][j].location.x == row and curr_matrix[i][j - 1].description == "UNUSED"): #if we are at top and we are allowed to move left
+                                        addToSetUni(curr_matrix, new_matrix, cost, actionList, open_set, child, row, col, tieBreak)
+                                
+                                elif(curr_matrix[i][j].location.x == row and curr_matrix[i][j + 1].description == "UNUSED"): #if we are at top and we are allowed to move left
                                     if(isEmpty(curr_matrix, curr_matrix[i][j], curr_matrix[k][p]) == True):
                                         empty_space = curr_matrix[k][p]
-    
+
                                         new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
                                         if (iteration == 1):
                                             actionList_parked, new_matrix = pathFromParkTocontainer(new_matrix, new_matrix[i][j], row)
@@ -156,9 +156,9 @@ def Astar(matrix, row, col, maxActions):
                                             moveList.append(actionList_parked)
                                         actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)  
                                         if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
-                                            addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], cost, actionList, open_set, child, row, col, tieBreak, maxActions)
+                                            addToSetUni(curr_matrix, new_matrix, cost, actionList, open_set, child, row, col, tieBreak)
                                         elif(inSet(new_matrix, copy_open_set2) == True and ((cost + len(actionList)) < cost)):
-                                            addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], cost, actionList, open_set, child, row, col, tieBreak, maxActions)
+                                            addToSetUni(curr_matrix, new_matrix, cost, actionList, open_set, child, row, col, tieBreak)
                                 elif(curr_matrix[i + 1][j].description == "UNUSED"):
                                     if(isEmpty(curr_matrix, curr_matrix[i][j], curr_matrix[k][p]) == True):
                                         empty_space = curr_matrix[k][p]
@@ -170,9 +170,9 @@ def Astar(matrix, row, col, maxActions):
                                             moveList.append(actionList_parked)
                                         actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)  
                                         if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
-                                            addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], cost, actionList, open_set, child, row, col, tieBreak, maxActions)
+                                            addToSetUni(curr_matrix, new_matrix, cost, actionList, open_set, child, row, col, tieBreak)
                                         elif(inSet(new_matrix, copy_open_set2) == True and ((cost + len(actionList)) < cost)):
-                                            addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], cost, actionList, open_set, child, row, col, tieBreak, maxActions)
+                                            addToSetUni(curr_matrix, new_matrix, cost, actionList, open_set, child, row, col, tieBreak)
                                 else:
                                  continue; 
 
