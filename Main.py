@@ -123,12 +123,12 @@ if(checkAllZeroes(m3, row, col) == False): #check if weights are all zeros. Don'
         if(checkOneOnEachSide(m3, row, col) == False): #if they are more than 1, are there 2 with 1 on each side
           moveList, closed_set, _ = Uniform_cost(m3, row, col)
 
-          #parked = moveList.pop(-1)
+          parked = moveList.pop(-1)
           print(moveList)
           maxActions = sum(len(i) for i in moveList)
           moveList, closed_set, m3 = Astar(m3, row, col, maxActions)  #if all 3 conditions fail must use A star
-          #parked = moveList.pop(-1) #since last element is going from parked to container we have to insert at start
-          #moveList.insert(0, parked)
+          parked = moveList.pop(-1) #since last element is going from parked to container we have to insert at start
+          moveList.insert(0, parked)
 
 for i in range(row - 1, -1, -1):
     print(f"Row: {i+1}")

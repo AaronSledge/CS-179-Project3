@@ -35,14 +35,13 @@ def Astar(matrix, row, col, maxActions):
     child = []
     moveList = []
     stateList = []
-    iteration = 2
+    iteration = 1
     while(len(open_set) != 0): 
         fn, cost, _, curr_matrix = heapq.heappop(open_set)
         lw = left_weight(curr_matrix, row, col)
         rw = right_weight(curr_matrix, row, col)
         dif_lr = balance_calc(lw, rw)
         curr_state = State(dif_lr, lw, rw, False)
-        parked_count = 0
         stateList.append(curr_state) 
         if(len(stateList) <= 1): #if only 1 state in list just check if difference is 0 because we have not moved yet
             if(stateList[-1].dif_lr == 0):
@@ -83,8 +82,8 @@ def Astar(matrix, row, col, maxActions):
                                     new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
                                     if (iteration == 1):
                                         actionList_parked, new_matrix = pathFromParkTocontainer(new_matrix, new_matrix[i][j], row)
-                                        cost += len(actionList_parked)
-                                        parked_count += 1
+                                        #cost += len(actionList_parked)
+                                        iteration += 1
                                         moveList.append(actionList_parked)
                                     actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)
                                     if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
@@ -98,8 +97,8 @@ def Astar(matrix, row, col, maxActions):
                                         new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
                                         if (iteration == 1):
                                             actionList_parked, new_matrix = pathFromParkTocontainer(new_matrix, new_matrix[i][j], row)
-                                            cost += len(actionList_parked)
-                                            parked_count += 1
+                                            #cost += len(actionList_parked)
+                                            iteration += 1
                                             moveList.append(actionList_parked)
                                         actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)
                                         if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
@@ -112,8 +111,8 @@ def Astar(matrix, row, col, maxActions):
                                         new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
                                         if (iteration == 1):
                                             actionList_parked, new_matrix = pathFromParkTocontainer(new_matrix, new_matrix[i][j], row)
-                                            cost += len(actionList_parked)
-                                            parked_count += 1
+                                            #cost += len(actionList_parked)
+                                            iteration += 1
                                             moveList.append(actionList_parked)
                                         
                                         actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)  
@@ -135,8 +134,8 @@ def Astar(matrix, row, col, maxActions):
                                     new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
                                     if (iteration == 1):
                                         actionList_parked, new_matrix = pathFromParkTocontainer(new_matrix, new_matrix[i][j], row)
-                                        cost += len(actionList_parked)
-                                        parked_count += 1
+                                        #cost += len(actionList_parked)
+                                        iteration += 1
                                         moveList.append(actionList_parked)
                                     actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)
                                     if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
@@ -151,8 +150,8 @@ def Astar(matrix, row, col, maxActions):
                                         new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
                                         if (iteration == 1):
                                             actionList_parked, new_matrix = pathFromParkTocontainer(new_matrix, new_matrix[i][j], row)
-                                            cost += len(actionList_parked)
-                                            parked_count += 1
+                                            #cost += len(actionList_parked)
+                                            itetration += 1
                                             moveList.append(actionList_parked)
                                         actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)  
                                         if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
@@ -165,8 +164,8 @@ def Astar(matrix, row, col, maxActions):
                                         new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
                                         if (iteration == 1):
                                             actionList_parked, new_matrix = pathFromParkTocontainer(new_matrix, new_matrix[i][j], row)
-                                            cost += len(actionList_parked)
-                                            parked_count += 1
+                                            #cost += len(actionList_parked)
+                                            iteration += 1
                                             moveList.append(actionList_parked)
                                         actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)  
                                         if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):

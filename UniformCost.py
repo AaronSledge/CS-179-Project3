@@ -7,14 +7,15 @@ from State import con2_balance_check
 from boundCheck import find_nearest_empty_space_left, find_nearest_empty_space_right, pathToNewContainer, pathFromParkTocontainer, isEmpty
 from SetInclusion import inSet, addToSetUni
 from edgeCases import checkOneOnEachSide
-import copy
-import heapq
+import copy #https://www.geeksforgeeks.org/python/copy-python-deep-copy-shallow-copy/
+import heapq #https://www.geeksforgeeks.org/python/heap-queue-or-heapq-in-python/
 from itertools import count #https://www.geeksforgeeks.org/python/python-itertools-count/#
 
 
 def Uniform_cost(matrix, row, col):
     og_lw = left_weight(matrix, row, col)
     og_rw = right_weight(matrix, row, col)
+    #need og_lw and _og_rw for balance condition 2
     dif_lr = balance_calc(og_lw, og_rw)
     start_state = State(dif_lr, og_lw, og_rw, False)
 
@@ -34,20 +35,20 @@ def Uniform_cost(matrix, row, col):
     child = []
     moveList = []
     stateList = []
-    iteration = 2
+    iteration = 1
     while(len(open_set) != 0): 
         fn, cost, _, curr_matrix = heapq.heappop(open_set)
         lw = left_weight(curr_matrix, row, col)
         rw = right_weight(curr_matrix, row, col)
         dif_lr = balance_calc(lw, rw)
         curr_state = State(dif_lr, lw, rw, False)
-        parked_count = 0
-        stateList.append(curr_state) 
+        stateList.append(curr_state)
         if(len(stateList) <= 1): #if only 1 state in list just check if difference is 0 because we have not moved yet
             if(stateList[-1].dif_lr == 0):
                 stateList[-1].balanced == True
         else:
             curr_state.balanced = con2_balance_check(curr_state, og_lw, og_rw)
+
             #if(curr_state.balanced == False):
                 #curr_state.balanced = con1_balance_check(curr_state, og_lw, og_rw)
         
@@ -82,8 +83,9 @@ def Uniform_cost(matrix, row, col):
                                     new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
                                     if (iteration == 1):
                                         actionList_parked, new_matrix = pathFromParkTocontainer(new_matrix, new_matrix[i][j], row)
-                                        cost += len(actionList_parked)
-                                        parked_count += 1
+                                        #cost += len(actionList_parked)
+                                        iteration += 1
+                                        print(actionList_parked)
                                         moveList.append(actionList_parked)
                                     actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)
                                     if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
@@ -97,8 +99,8 @@ def Uniform_cost(matrix, row, col):
                                         new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
                                         if (iteration == 1):
                                             actionList_parked, new_matrix = pathFromParkTocontainer(new_matrix, new_matrix[i][j], row)
-                                            cost += len(actionList_parked)
-                                            parked_count += 1
+                                            #cost += len(actionList_parked)
+                                            iteration += 1
                                             moveList.append(actionList_parked)
                                         actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)
                                         if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
@@ -111,8 +113,8 @@ def Uniform_cost(matrix, row, col):
                                         new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
                                         if (iteration == 1):
                                             actionList_parked, new_matrix = pathFromParkTocontainer(new_matrix, new_matrix[i][j], row)
-                                            cost += len(actionList_parked)
-                                            parked_count += 1
+                                            #cost += len(actionList_parked)
+                                            iteration += 1
                                             moveList.append(actionList_parked)
                                         
                                         actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)  
@@ -135,8 +137,8 @@ def Uniform_cost(matrix, row, col):
                                     new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
                                     if (iteration == 1):
                                         actionList_parked, new_matrix = pathFromParkTocontainer(new_matrix, new_matrix[i][j], row)
-                                        cost += len(actionList_parked)
-                                        parked_count += 1
+                                        #cost += len(actionList_parked)
+                                        iteration += 1
                                         moveList.append(actionList_parked)
                                     actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)
                                     if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
@@ -151,8 +153,8 @@ def Uniform_cost(matrix, row, col):
                                         new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
                                         if (iteration == 1):
                                             actionList_parked, new_matrix = pathFromParkTocontainer(new_matrix, new_matrix[i][j], row)
-                                            cost += len(actionList_parked)
-                                            parked_count += 1
+                                            #cost += len(actionList_parked)
+                                            iteration += 1
                                             moveList.append(actionList_parked)
                                         actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)  
                                         if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
@@ -165,8 +167,8 @@ def Uniform_cost(matrix, row, col):
                                         new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
                                         if (iteration == 1):
                                             actionList_parked, new_matrix = pathFromParkTocontainer(new_matrix, new_matrix[i][j], row)
-                                            cost += len(actionList_parked)
-                                            parked_count += 1
+                                            #cost += len(actionList_parked)
+                                            iteration += 1
                                             moveList.append(actionList_parked)
                                         actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)  
                                         if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
