@@ -4,8 +4,8 @@ from Container import Location
 # input into our matrix a list of container objects
 
 def matrix(listContainer):
-  row = 2
-  column = 4
+  row = 8
+  column = 12
   used_set = set()
   matrix = [[Container(Location(i + 1, j + 1), 0, "Test") for i in range(column)] for j in range(row)]
 
