@@ -20,7 +20,8 @@ def Uniform_cost(matrix, row, col):
 
     if(dif_lr == 0 or con2_balance_check(start_state, og_lw, og_rw)): #if already balanced we can stop
         start_state.balanced == True
-        return [], [], matrix
+        print("made it")
+        return [], matrix
     
 
     open_set = []

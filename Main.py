@@ -102,7 +102,7 @@ print("--Working with Astartest1.txt file--")
 
 row = 8
 col = 12
-filename = "ShipCase6.txt"
+filename = "ShipCase4.txt"
 listContainers = FileRead(filename)
 ship = Ship(listContainers, False)
 m3 = matrix(ship.listContainers, row, col)
@@ -121,12 +121,16 @@ moveList = []
 if(checkAllZeroes(m3, row, col) == False): #check if weights are all zeros. Don't matter how many if that is the case
     if(checkIfNearlyEmpty(m3, row, col) == False): #check if there are only 0 or 1 container
         if(checkOneOnEachSide(m3, row, col) == False): #if they are more than 1, are there 2 with 1 on each side
-          moveList, _ = Uniform_cost(m3, row, col)
-          parked = moveList.pop(-1)
-          maxActions = sum(len(i) for i in moveList)
-          moveList, m3, path, totalTime, totalMoves, totalContainers = Astar(m3, row, col, maxActions)  #if all 3 conditions fail must use A star
-          moves_without_crane = totalMoves - 2
-          time_without_crane = totalTime - len(moveList[0]) - len(moveList[-1])
+          #moveList, _ = Uniform_cost(m3, row, col)
+          #if(len(moveList) != 0):
+            #parked = moveList.pop(-1)
+        
+          #maxActions = sum(len(i) for i in moveList)
+          #print(maxActions)
+          moveList, m3, path, totalTime, totalMoves, totalContainers = Astar(m3, row, col, 2)  #if all 3 conditions fail must use A star
+          if(len(moveList) != 0):
+            moves_without_crane = totalMoves - 2
+            time_without_crane = totalTime - len(moveList[0]) - len(moveList[-1])
           #path goes is an array of tuples. It goes [(parent_container, child_container, actions taken to get from parent to child)]
 
 for i in range(row - 1, -1, -1):

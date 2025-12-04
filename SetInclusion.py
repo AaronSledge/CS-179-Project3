@@ -11,6 +11,13 @@ def inSet(matrix, open_set):
     return False
 
 
+def getCost(matrix, open_set):
+    while(len(open_set) != 0):
+        _, gn, _, curr_matrix, _ = heapq.heappop(open_set)
+        if(curr_matrix == matrix):
+            return gn
+    return 0
+
 def addToSetAstar(curr_matrix, new_matrix, container, new_container, cost, actionList, open_set, child, row, col, tieBreak, maxActions):
     gn = cost + len(actionList)
     lw = left_weight(new_matrix, row, col)
