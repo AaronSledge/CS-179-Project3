@@ -97,29 +97,38 @@ def pathToNewContainer(matrix, old_container, new_container, row):
                 actionList.append("UP") 
     
     return actionList, matrix
-def pathFromParkTocontainer(matrix, new_container, row):
+def pathFromParkTocontainer(old_container, row):
     old_x = row
-    old_y = 0
+    old_y = 1
     actionList = []
-
-    while(True):
-        down_count = 0 #set down_count to 0 each time we move to next col
-        found = False
-        while(old_x != 0): #until crane reaches ground level
-            down_count += 1
-            if(matrix[old_x - 1][old_y] == new_container): #if we found our container break loop
-                found = True
-                break;
-            old_x -= 1
-        if(found == True): #break 2nd loop
-            #actionList.append("RIGHT")
-            break
-        old_y +=1
-        old_x = row #reset x
-        actionList.append("RIGHT") #if we reach bottom move to right
     
-    for i in range(down_count):
-        actionList.append("DOWN")
+    start_x = old_container.location.x
+    start_y = old_container.location.y
 
-        
-    return actionList, matrix
+    while (old_y < start_y):
+        old_y += 1
+        actionList.append("RIGHT")
+    
+    while (old_x > start_x):
+        old_x -= 1
+        actionList.append("DOWN")
+    
+    return actionList
+
+def finalContainerToParked(last_container, row):
+    old_x = last_container.location.x
+    old_y = last_container.location.y
+
+    parked_x = row + 1
+    parked_y = 1
+
+    actionList = []
+    while(old_x < parked_x):
+        old_x += 1
+        actionList.append("UP")
+    
+    while(old_y > parked_y):
+        old_y -= 1
+        actionList.append("LEFT")
+    
+    return actionList
