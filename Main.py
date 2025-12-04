@@ -16,6 +16,7 @@ from LogFile import WriteComment
 from totalContainer import findTotalContainers
 from FinalManifest import CreateFinalManifest
 from ScreenToUser import UserInteraction
+import os
 
 def RunProgram():
 
@@ -35,7 +36,10 @@ def RunProgram():
         print(f"{manifestname[0:len(manifestname)-4]} has {totalcontainers} containers\n")
         WriteManifestNameToFile(filename, manifestname, totalcontainers)
         print("Computing a solution... \n")
+
+        # runs Astar to find a solution
         movelist, new_matrix, path, totaltime, totalmoves, totalcontainers = Astar(m, row, col, maxActions)
+
         if (totalmoves > 1):
             print(f"Solution has been found, it will take \n {totalmoves} moves \n {totaltime} minutes \n")
         else:
@@ -44,7 +48,14 @@ def RunProgram():
         timewithoutcrane = totaltime - len(movelist[0]) - len(movelist[-1])
         WriteTotalMoveTimeToFile(filename, moveswithoutcrane, timewithoutcrane)
         WritePathToFile(filename, path, totalcontainers)
+
+        manifestname = os.path.splitext(os.path.basename(manifestname))[0]
+        manifestname += "OUTBOUND.txt"
         WriteCycleFinished(filename, manifestname)
+
+        # creates the final manifest file that will be emailed to the captain
+        CreateFinalManifest(manifestname, path)
+
         userIn = input("Enter S to stop")
         if (userIn == "S" or userIn == "s"):
             print("End program")
