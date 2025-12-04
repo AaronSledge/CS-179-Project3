@@ -127,7 +127,7 @@ if(checkAllZeroes(m3, row, col) == False): #check if weights are all zeros. Don'
         
           #maxActions = sum(len(i) for i in moveList)
           #print(maxActions)
-          moveList, m3, path, totalTime, totalMoves, totalContainers = Astar(m3, row, col, 2)  #if all 3 conditions fail must use A star
+          moveList, m3, path, totalTime, totalMoves, totalContainers = Astar(m3, row, col, 9)  #if all 3 conditions fail must use A star
           if(len(moveList) != 0):
             moves_without_crane = totalMoves - 2
             time_without_crane = totalTime - len(moveList[0]) - len(moveList[-1])

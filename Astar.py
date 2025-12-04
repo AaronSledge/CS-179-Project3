@@ -33,10 +33,13 @@ def Astar(matrix, row, col, maxActions):
     open_set.append((dif_lr, 0, next(tieBreak), start_matrix, start_matrix[0][0]))
     heapq.heapify(open_set)
     heapq.heapify(closed_set)
+    matrixSet = set()
     child = []
     moveList = []
     stateList = []
     iteration = 0
+    key = tuple(tuple(row) for row in start_matrix)
+    matrixSet.add(key)
     while(len(open_set) != 0): 
         fn, cost, _, curr_matrix, parent_container = heapq.heappop(open_set)
         lw = left_weight(curr_matrix, row, col)
@@ -45,7 +48,7 @@ def Astar(matrix, row, col, maxActions):
         curr_state = State(dif_lr, lw, rw, False)
         stateList.append(curr_state) 
         iteration += 1
-        
+        print(fn)
 
         if(len(stateList) <= 1): #if only 1 state in list just check if difference is 0 because we have not moved yet
             if(stateList[-1].dif_lr == 0):
@@ -90,7 +93,8 @@ def Astar(matrix, row, col, maxActions):
             totalMoves += 1
 
             return moveList, finished_matrix, path, totalTime, totalMoves, totalNumContainers
-        
+    
+
         heapq.heappush(closed_set, (fn, cost, next(tieBreak), curr_matrix, curr_matrix[0][0]))
         #made open_set copies because inSet removes elements in order to check if matrix is in the set
         if (lw > rw): #check left side
@@ -107,29 +111,38 @@ def Astar(matrix, row, col, maxActions):
                                     empty_space = find_nearest_empty_space_right(curr_matrix, row, col, curr_matrix[i][j])
                                     new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
                                     actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)
-                                    if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
+                                    key = tuple(tuple(row) for row in new_matrix)
+                                    if(key in matrixSet and inSet(new_matrix, copy_closed_set1) == False):
                                         addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], empty_space, cost, actionList, open_set, child, row, col, tieBreak, maxActions)
-                                    elif(inSet(new_matrix, copy_open_set2) == True and ((cost + len(actionList)) < getCost(new_matrix, copy_open_set3))):
+                                        matrixSet.add(key)
+                                    elif(key in matrixSet and ((cost + len(actionList)) < getCost(new_matrix, copy_open_set3))):
                                         addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], empty_space, cost, actionList, open_set, child, row, col, tieBreak, maxActions)
+                                        matrixSet.add(key)
                                 
                                 elif(curr_matrix[i][j].location.x == row and curr_matrix[i][j + 1].description == "UNUSED"): #if we are at top and we are allowed to move right
                                     if(isEmpty(curr_matrix, curr_matrix[i][j], curr_matrix[k][p]) == True):
                                         empty_space = curr_matrix[k][p]
                                         new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
                                         actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)
-                                        if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
+                                        key = tuple(tuple(row) for row in new_matrix)
+                                        if(key in matrixSet and inSet(new_matrix, copy_closed_set1) == False):
                                             addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], empty_space, cost, actionList, open_set, child, row, col, tieBreak, maxActions)
-                                        elif(inSet(new_matrix, copy_open_set2) == True and ((cost + len(actionList)) < getCost(new_matrix, copy_open_set3))):
+                                            matrixSet.add(key)
+                                        elif(key in matrixSet and ((cost + len(actionList)) < getCost(new_matrix, copy_open_set3))):
                                             addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], empty_space, cost, actionList, open_set, child, row, col, tieBreak, maxActions)
+                                            matrixSet.add(key)
                                 elif(curr_matrix[i + 1][j].description == "UNUSED"):
                                     if(isEmpty(curr_matrix, curr_matrix[i][j], curr_matrix[k][p]) == True):
                                         empty_space = curr_matrix[k][p]
                                         new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
-                                        actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)  
-                                        if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
+                                        actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)
+                                        key = tuple(tuple(row) for row in new_matrix)  
+                                        if(key in matrixSet and inSet(new_matrix, copy_closed_set1) == False):
                                             addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], empty_space, cost, actionList, open_set, child, row, col, tieBreak, maxActions)
-                                        elif(inSet(new_matrix, copy_open_set2) == True and  ((cost + len(actionList)) < getCost(new_matrix, copy_open_set3))):
+                                            matrixSet.add(key)
+                                        elif(key in matrixSet and ((cost + len(actionList)) < getCost(new_matrix, copy_open_set3))):
                                             addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], empty_space, cost, actionList, open_set, child, row, col, tieBreak, maxActions)
+                                            matrixSet.add(key)
                                 else:
                                  continue;
                 
@@ -142,14 +155,18 @@ def Astar(matrix, row, col, maxActions):
                                 copy_open_set1 = copy.deepcopy(open_set)
                                 copy_closed_set1 = copy.deepcopy(closed_set)
                                 copy_open_set2 = copy.deepcopy(open_set)
+                                copy_open_set3 = copy.deepcopy(open_set)
                                 if(curr_matrix[i][j].location.x == 1 and curr_matrix[i + 1][j].description == "UNUSED"):
                                     empty_space = find_nearest_empty_space_left(curr_matrix, row, col, curr_matrix[i][j])
                                     new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
                                     actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)
-                                    if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
+                                    key = tuple(tuple(row) for row in new_matrix)
+                                    if(key in matrixSet and inSet(new_matrix, copy_closed_set1) == False):
                                         addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], empty_space, cost, actionList, open_set, child, row, col, tieBreak, maxActions)
-                                    elif(inSet(new_matrix, copy_open_set2) == True and ((cost + len(actionList)) < getCost(new_matrix, copy_open_set3))):
+                                        matrixSet.add(key)
+                                    elif(key in matrixSet and ((cost + len(actionList)) < getCost(new_matrix, copy_open_set3))):
                                         addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], empty_space, cost, actionList, open_set, child, row, col, tieBreak, maxActions)
+                                        matrixSet.add(key)
                                     
                                 elif(curr_matrix[i][j].location.x == row and curr_matrix[i][j - 1].description == "UNUSED"): #if we are at top and we are allowed to move left
                                     if(isEmpty(curr_matrix, curr_matrix[i][j], curr_matrix[k][p]) == True):
@@ -157,19 +174,25 @@ def Astar(matrix, row, col, maxActions):
     
                                         new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
                                         actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)  
-                                        if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
+                                        key = tuple(tuple(row) for row in new_matrix)
+                                        if(key in matrixSet and inSet(new_matrix, copy_closed_set1) == False):
                                             addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], empty_space, cost, actionList, open_set, child, row, col, tieBreak, maxActions)
-                                        elif(inSet(new_matrix, copy_open_set2) == True and  ((cost + len(actionList)) < getCost(new_matrix, copy_open_set3))):
+                                            matrixSet.add(key)
+                                        elif(key in matrixSet and  ((cost + len(actionList)) < getCost(new_matrix, copy_open_set3))):
                                             addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], empty_space, cost, actionList, open_set, child, row, col, tieBreak, maxActions)
+                                            matrixSet.add(key)
                                 elif(curr_matrix[i + 1][j].description == "UNUSED"):
                                     if(isEmpty(curr_matrix, curr_matrix[i][j], curr_matrix[k][p]) == True):
                                         empty_space = curr_matrix[k][p]
                                         new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
                                         actionList, new_matrix = pathToNewContainer(new_matrix, new_matrix[i][j], empty_space, row)  
-                                        if(inSet(new_matrix, copy_open_set1) == False and inSet(new_matrix, copy_closed_set1) == False):
+                                        key = tuple(tuple(row) for row in new_matrix)
+                                        if(key in matrixSet and inSet(new_matrix, copy_closed_set1) == False):
                                             addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], empty_space, cost, actionList, open_set, child, row, col, tieBreak, maxActions)
-                                        elif(inSet(new_matrix, copy_open_set2) == True and  ((cost + len(actionList)) < getCost(new_matrix, copy_open_set3))):
+                                            matrixSet.add(key)
+                                        elif(key in matrixSet and  ((cost + len(actionList)) < getCost(new_matrix, copy_open_set3))):
                                             addToSetAstar(curr_matrix, new_matrix, curr_matrix[i][j], empty_space, cost, actionList, open_set, child, row, col, tieBreak, maxActions)
+                                            matrixSet.add(key)
                                 else:
                                  continue; 
 

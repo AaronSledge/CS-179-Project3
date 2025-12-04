@@ -31,6 +31,7 @@ def addToSetAstar(curr_matrix, new_matrix, container, new_container, cost, actio
         else:
             hn = 0
     fn = hn + gn
+    print("Made it")
     #print(curr_matrix[i][j].location.x, curr_matrix[i][j].location.y, empty_space.location.x, empty_space.location.y)
     heapq.heappush(open_set, (fn, gn, next(tieBreak), new_matrix, container))
     child.append((curr_matrix, new_matrix, actionList, container, new_container))
