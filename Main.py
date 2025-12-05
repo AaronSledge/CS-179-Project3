@@ -102,7 +102,7 @@ print("--Working with Astartest1.txt file--")
 
 row = 8
 col = 12
-filename = "Astartest4.txt"
+filename = "ShipCase6.txt"
 listContainers = FileRead(filename)
 ship = Ship(listContainers, False)
 m3 = matrix(ship.listContainers, row, col)
@@ -122,7 +122,6 @@ if(checkAllZeroes(m3, row, col) == False): #check if weights are all zeros. Don'
     if(checkIfNearlyEmpty(m3, row, col) == False): #check if there are only 0 or 1 container
         if(checkOneOnEachSide(m3, row, col) == False): #if they are more than 1, are there 2 with 1 on each side
           maxActions = Uniform_cost(m3, row, col)
-          print(maxActions)
           moveList, m3, path, totalTime, totalMoves, totalContainers = Astar(m3, row, col, maxActions)  #if all 3 conditions fail must use A star
           if(len(moveList) != 0):
             moves_without_crane = totalMoves - 2

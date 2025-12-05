@@ -41,6 +41,7 @@ def Uniform_cost(matrix, row, col):
     key = tuple(tuple(row) for row in start_matrix)
     gnTable[key] = 0
     matrixSet.add(key)
+    numContainers = findTotalContainers(start_matrix, row, col)
     while(len(open_set) != 0): 
         fn, cost, _, curr_matrix, parent_container = heapq.heappop(open_set)
         lw = left_weight(curr_matrix, row, col)
@@ -50,10 +51,13 @@ def Uniform_cost(matrix, row, col):
         stateList.append(curr_state) 
         iteration += 1
         End_time = time.time() - start_time
-        print(cost)
-        if(End_time >= 60):
-            numContainers = findTotalContainers(curr_matrix, row, col)
-            return cost * numContainers
+
+        if(numContainers  < 8):
+            if(End_time >= 120):
+                return cost * numContainers
+        else:
+            if(End_time >= 300):
+                return cost * numContainers
         
 
         if(len(stateList) <= 1): #if only 1 state in list just check if difference is 0 because we have not moved yet
