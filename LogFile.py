@@ -37,6 +37,14 @@ def WriteTotalMoveTimeToFile(filename, nummoves, numtime):
     file.close()
 
 def WritePathToFile(filename, path, totalmoves):
+
+    if totalmoves == 0 or len(path) == 0:
+        file = open(filename, "a")
+        file.write("Ship already balanced. No moves required.\n")
+        file.close()
+        print("Ship already balanced. No moves required.\n")
+        return
+
     file = open(filename, "a")
     comments = []
     input_str = ""
