@@ -51,6 +51,6 @@ def con1_balance_check(curr_state, prev_state):
 def con2_balance_check(curr_state, og_lw, og_rw):
    if(curr_state.dif_lr <= ((og_lw + og_rw) * 0.10)):
        return True
-   return False;
+   return False
 
 

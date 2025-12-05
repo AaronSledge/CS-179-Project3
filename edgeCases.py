@@ -6,8 +6,8 @@ def checkIfNearlyEmpty(matrix, row, col):
                 count += 1
             
             if(count >= 2):
-                return False;
-    return True;
+                return False
+    return True
 
 def checkOneOnEachSide(matrix, row, col):
     count = 0
@@ -17,7 +17,7 @@ def checkOneOnEachSide(matrix, row, col):
                 count += 1
             
             if(count >= 2):
-                return False;
+                return False
 
     count = 0
     for i in range(row - 1, -1, -1):
@@ -26,7 +26,7 @@ def checkOneOnEachSide(matrix, row, col):
                 count += 1
             
             if(count >= 2):
-                return False;
+                return False
     
 
     return True

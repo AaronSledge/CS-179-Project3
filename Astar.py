@@ -50,7 +50,6 @@ def Astar(matrix, row, col, maxActions):
         curr_state = State(dif_lr, lw, rw, False)
         stateList.append(curr_state) 
         iteration += 1
-        print(fn)
         if(len(stateList) <= 1): #if only 1 state in list just check if difference is 0 because we have not moved yet
             if(stateList[-1].dif_lr == 0):
                 stateList[-1].balanced == True
@@ -172,7 +171,7 @@ def Astar(matrix, row, col, maxActions):
                                                 matrixSet.add(key)
                                                 gnTable[key] = cost + len(actionList)
                                 else:
-                                 continue;
+                                 continue
                 
         else:
             for i in range(row - 1, -1, -1):
@@ -230,7 +229,7 @@ def Astar(matrix, row, col, maxActions):
                                                 matrixSet.add(key)
                                                 gnTable[key] = cost + len(actionList)
                                 else:
-                                 continue; 
+                                 continue
 
             
             
