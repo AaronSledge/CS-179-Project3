@@ -181,7 +181,7 @@ def Astar(matrix, row, col, maxActions):
                                                 matrixSet.add(key)
                                                 gnTable[key] = cost + len(actionList)
                                 else:
-                                 continue;
+                                 continue
                 
         else:
             for i in range(row - 1, -1, -1):
@@ -239,7 +239,7 @@ def Astar(matrix, row, col, maxActions):
                                                 matrixSet.add(key)
                                                 gnTable[key] = cost + len(actionList)
                                 else:
-                                 continue; 
+                                 continue
 
             
             

@@ -119,7 +119,7 @@ def finalContainerToParked(last_container, row):
     old_x = last_container.location.x
     old_y = last_container.location.y
 
-    parked_x = row + 1
+    parked_x = row
     parked_y = 1
 
     actionList = []
