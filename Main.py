@@ -46,17 +46,18 @@ def RunProgram():
             print(f"Solution has been found, it will take \n {totalmoves} move \n {totaltime} minutes \n")
         moveswithoutcrane = totalmoves - 2
         timewithoutcrane = totaltime - len(movelist[0]) - len(movelist[-1])
-        WriteTotalMoveTimeToFile(filename, moveswithoutcrane, timewithoutcrane)
-        WritePathToFile(filename, path, totalcontainers)
+        #WriteTotalMoveTimeToFile(filename, moveswithoutcrane, timewithoutcrane)
+        WriteTotalMoveTimeToFile(filename, totalmoves, totaltime)
+        WritePathToFile(filename, path, totalmoves)
 
         manifestname = os.path.splitext(os.path.basename(manifestname))[0]
         manifestname += "OUTBOUND.txt"
         WriteCycleFinished(filename, manifestname)
 
         # creates the final manifest file that will be emailed to the captain
-        CreateFinalManifest(manifestname, path)
+        CreateFinalManifest(manifestname, new_matrix)
 
-        userIn = input("Enter S to stop")
+        userIn = input("Enter S to stop \n")
         if (userIn == "S" or userIn == "s"):
             print("End program")
             exit()
