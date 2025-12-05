@@ -16,6 +16,7 @@ from LogFile import WriteComment
 from totalContainer import findTotalContainers
 from FinalManifest import CreateFinalManifest
 from ScreenToUser import UserInteraction
+from Visualizer import visualize_path
 import os
 
 def RunProgram():
@@ -58,6 +59,8 @@ def RunProgram():
 
                     WriteTotalMoveTimeToFile(filename, totalmoves, totaltime)
                     WritePathToFile(filename, path, totalmoves)
+
+                    visualize_path(m, path)
 
                     manifestname = os.path.splitext(os.path.basename(manifestname))[0]
                     manifestname += "OUTBOUND.txt"
