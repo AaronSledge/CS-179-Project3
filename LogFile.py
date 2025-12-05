@@ -37,6 +37,8 @@ def WriteTotalMoveTimeToFile(filename, nummoves, numtime):
     file.close()
 
 def WritePathToFile(filename, path, totalmoves):
+    if(len(path) == 0):
+        return;
     file = open(filename, "a")
     comments = []
     for i in range(len(path) + 1):
