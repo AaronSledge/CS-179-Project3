@@ -5,8 +5,8 @@ from State import right_weight
 from State import balance_calc
 from State import con1_balance_check
 from State import con2_balance_check
-from boundCheck import find_nearest_empty_space_left,  find_nearest_empty_space_right, pathToNewContainer, pathFromParkTocontainer, isEmpty, finalContainerToParked
-from SetInclusion import inSet, addToSetAstar, getCost
+from boundCheck import find_nearest_empty_space_left,  find_nearest_empty_space_right, pathToNewContainer, pathFromParkTocontainer, isEmpty, finalContainerToParked, craneMovements
+from SetInclusion import  addToSetAstar
 from edgeCases import checkOneOnEachSide
 from totalContainer import findTotalContainers
 import copy
@@ -68,17 +68,27 @@ def Astar(matrix, row, col, maxActions):
             path = []
             totalTime = 0
             totalMoves = 0
+            parent = 0
+            craneLogic = False
             while(curr_matrix != start_matrix):
                 for i in range(len(child)):
                     if (child[i][1] == curr_matrix):
+                        if(craneLogic == True):
+                            actionList = craneMovements(curr_matrix, child[i][4], parent, row)
+                            path.append((child[i][4], parent, actionList))
+                            moveList.append(actionList)
+                            totalTime += len(actionList)
+                            totalMoves += 1
+                            
                         path.append((child[i][3], child[i][4], child[i][2]))
                         totalTime += len(child[i][2])
                         totalMoves += 1
                         moveList.append(child[i][2]) #add to set of actions for each move
                         curr_matrix = child[i][0] #this gets parent matrix or matrix before move
+                        parent = child[i][3]
+                        craneLogic = True
             moveList.reverse() #Since we are going from child to parent we need to reverse it to go from start to goal matrix
             path.reverse()
-
             first_container = path[0][0]
             actionList = pathFromParkTocontainer(first_container, row)
             totalTime += len(actionList)
@@ -138,7 +148,7 @@ def Astar(matrix, row, col, maxActions):
                                             matrixSet.add(key)
                                             gnTable[key] = cost + len(actionList)
                                 
-                                elif(curr_matrix[i][j].location.x == row and curr_matrix[i][j + 1].description == "UNUSED"): #if we are at top and we are allowed to move right
+                                elif(curr_matrix[i][j].location.x == row): #if we are at top and we are allowed to move right
                                     if(isEmpty(curr_matrix, curr_matrix[i][j], curr_matrix[k][p]) == True):
                                         empty_space = curr_matrix[k][p]
                                         new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
@@ -195,7 +205,7 @@ def Astar(matrix, row, col, maxActions):
                                             matrixSet.add(key)
                                             gnTable[key] = cost + len(actionList)
                                     
-                                elif(curr_matrix[i][j].location.x == row and curr_matrix[i][j - 1].description == "UNUSED"): #if we are at top and we are allowed to move left
+                                elif(curr_matrix[i][j].location.x == row): #if we are at top and we are allowed to move left
                                     if(isEmpty(curr_matrix, curr_matrix[i][j], curr_matrix[k][p]) == True):
                                         empty_space = curr_matrix[k][p]
     

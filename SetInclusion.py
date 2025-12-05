@@ -30,15 +30,21 @@ def addToSetAstar(curr_matrix, new_matrix, container, new_container, cost, actio
     if(gn > maxActions):
         return gn
     
-
-    if(dif_lr < maxActions or container.location.x == 1):
+    if(container.location.x == 1):
         hn = dif_lr
+    
+    if(dif_lr < maxActions):
+        hn = dif_lr * (7 - container.location.y)
     else:
         if(gn <= maxActions):
             hn = maxActions
-
+    
+    if(container.location.x == 1):
+        hn = dif_lr
+    
     if(con2_balance_check(curr_state, og_lw, og_rw)):
         hn = 0
+    
     
     fn = hn + gn
     #print(curr_matrix[i][j].location.x, curr_matrix[i][j].location.y, empty_space.location.x, empty_space.location.y)
@@ -51,7 +57,8 @@ def addToSetUni(curr_matrix, new_matrix, cost, actionList, open_set, child, row,
     #print(curr_matrix[i][j].location.x, curr_matrix[i][j].location.y, empty_space.location.x, empty_space.location.y)
     lw = left_weight(new_matrix, row, col)
     rw = right_weight(new_matrix, row, col)
-    #dif_lr = balance_calc(lw, rw)
+    dif_lr = balance_calc(lw, rw)
+
     fn = gn
     heapq.heappush(open_set, (fn, gn, next(tieBreak), new_matrix, curr_matrix[0][0]))
     child.append((curr_matrix, new_matrix, actionList))
