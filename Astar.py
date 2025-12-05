@@ -12,6 +12,7 @@ from totalContainer import findTotalContainers
 import copy
 import heapq
 from itertools import count
+import Container
 
 
 def Astar(matrix, row, col, maxActions):
@@ -85,6 +86,19 @@ def Astar(matrix, row, col, maxActions):
             totalMoves += 1
             moveList.insert(0, actionList)
 
+            # add initial action info to path
+            # # first item needs to be the container that is being moved, and the 2nd item must be the location it is going to
+            # right_count = 0
+            # down_count = 0
+            # for i in range(len(actionList)):
+            #     if (actionList[i] == "RIGHT"):
+            #         right_count += 1
+            #     elif(actionList[i] == "DOWN"):
+            #         down_count += 1
+            new_loc = path[0][0]
+            initial_tuple = (first_container, new_loc, actionList)
+            path.insert(0, initial_tuple)
+
             last_container = path[-1][1]
             actionList = finalContainerToParked(last_container, row)
             moveList.append(actionList)
@@ -92,6 +106,12 @@ def Astar(matrix, row, col, maxActions):
             totalTime += len(actionList)
             totalMoves += 1
 
+            # add last action info to path
+            # park location is a container object representing the park position for the crane
+            park_loc = Container.Container(Container.Location(8, 1), "0000", "Crane")
+            last_tuple = (last_container, park_loc, actionList)
+            path.append(last_tuple)
+            
             return moveList, finished_matrix, path, totalTime, totalMoves, totalNumContainers
     
         closed_key = tuple(tuple(row) for row in start_matrix)
