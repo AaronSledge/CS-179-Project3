@@ -15,6 +15,7 @@ from State import balance_calc
 from State import con1_balance_check
 from State import con2_balance_check
 from State import State
+from boundCheck import isEmpty, pathToNewContainer
 
 # This tests if a file is read in correctly
 class TestFileRead(unittest.TestCase):
@@ -93,6 +94,27 @@ class TestStates(unittest.TestCase):
         s = State(0, 10, 10, True)
         check = con2_balance_check(s, 20, 10)
         self.assertEqual(check, True, "The balance condition 2 is not satisfied")
+
+class TestBoundChecks(unittest.TestCase):
+    def testIsEmpty(self):
+        testFile = "ShipCase4.txt"
+        listOfContainers = FileRead(testFile)
+        m = matrix(listOfContainers, 8, 12)
+        empty = isEmpty(m, m[1][1], m[1][2])
+        self.assertEqual(empty, True, "IsEmpty fails to selects a valid empty space")
+
+    def testIsEmptyFails(self):
+        testFile = "ShipCase4.txt"
+        listOfContainers = FileRead(testFile)
+        m = matrix(listOfContainers, 8, 12)
+        empty = isEmpty(m, m[1][1], m[2][1])
+        self.assertEqual(empty, False, "IsEmpty fails to selects a valid empty space")
     
+    def testPathToContainer(self):
+        testFile = "ShipCase5.txt"
+        listOfContainers = FileRead(testFile)
+        m = matrix(listOfContainers, 8, 12)
+        actionList, new_matrix = pathToNewContainer(m, m[0][4], m[0][6])
+        self.asseertEqual(actionList, True, )
 if __name__ == "__main__":
     unittest.main()

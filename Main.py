@@ -38,7 +38,6 @@ def RunProgram():
                 ship = Ship(listContainers, False)
                 row = 8
                 col = 12
-                maxActions = 10
                 m = matrix(ship.listContainers, row, col)
                 totalcontainers = findTotalContainers(m, row, col)
                 if (totalcontainers < 16):
@@ -46,6 +45,9 @@ def RunProgram():
                     WriteManifestNameToFile(filename, manifestname, totalcontainers)
                     print("Computing a solution... \n")
 
+                    #maxActions, time_so_far = Uniform_cost(m, row, col)
+
+                    maxActions = 10
                     # runs Astar to find a solution
                     movelist, new_matrix, path, totaltime, totalmoves, totalcontainers = Astar(m, row, col, maxActions)
 
