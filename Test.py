@@ -93,6 +93,5 @@ class TestStates(unittest.TestCase):
         s = State(0, 10, 10, True)
         check = con2_balance_check(s, 20, 10)
         self.assertEqual(check, True, "The balance condition 2 is not satisfied")
-    
 if __name__ == "__main__":
     unittest.main()
