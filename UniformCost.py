@@ -51,14 +51,14 @@ def Uniform_cost(matrix, row, col):
         stateList.append(curr_state) 
         iteration += 1
         End_time = time.time() - start_time
+        print(cost)
 
-        if(numContainers  < 8):
-            if(End_time >= 120):
+        if(numContainers < 8):
+            if(End_time >= 20):
                 return cost * numContainers
         else:
-            if(End_time >= 300):
+            if(End_time >= 120):
                 return cost * numContainers
-        
 
         if(len(stateList) <= 1): #if only 1 state in list just check if difference is 0 because we have not moved yet
             if(stateList[-1].dif_lr == 0):
@@ -106,7 +106,7 @@ def Uniform_cost(matrix, row, col):
                                         matrixSet.add(key)
                                         gnTable[key] = cost + len(actionList)
                                 
-                                elif(curr_matrix[i][j].location.x == row and curr_matrix[i][j + 1].description == "UNUSED"): #if we are at top and we are allowed to move right
+                                elif(curr_matrix[i][j].location.x == row): #if we are at top and we are allowed to move right
                                     if(isEmpty(curr_matrix, curr_matrix[i][j], curr_matrix[k][p]) == True):
                                         empty_space = curr_matrix[k][p]
                                         new_matrix = copy.deepcopy(curr_matrix) #make a copy because to path to new container function changes the matrix when we call an operation. Want curr_matrix intact so we can find parent
@@ -157,7 +157,7 @@ def Uniform_cost(matrix, row, col):
                                         matrixSet.add(key)
                                         gnTable[key] = cost + len(actionList)
                                     
-                                elif(curr_matrix[i][j].location.x == row and curr_matrix[i][j - 1].description == "UNUSED"): #if we are at top and we are allowed to move left
+                                elif(curr_matrix[i][j].location.x == row): #if we are at top and we are allowed to move left
                                     if(isEmpty(curr_matrix, curr_matrix[i][j], curr_matrix[k][p]) == True):
                                         empty_space = curr_matrix[k][p]
     
