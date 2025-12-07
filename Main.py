@@ -48,7 +48,7 @@ def RunProgram():
                     print("Computing a solution... \n")
 
                     maxActions = Uniform_cost(m, row, col)
-
+                    
                     
                     # runs Astar to find a solution
                     movelist, new_matrix, path, totaltime, totalmoves, totalcontainers = Astar(m, row, col, maxActions)
