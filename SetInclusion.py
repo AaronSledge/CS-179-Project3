@@ -5,20 +5,7 @@ from State import balance_calc
 from State import con2_balance_check
 from State import State
 from itertools import count
-def inSet(matrix, open_set):
-    while(len(open_set) != 0):
-        _, _, _, curr_matrix, _ = heapq.heappop(open_set)
-        if(curr_matrix == matrix):
-            return True
-    return False
-
-
-def getCost(matrix, open_set):
-    while(len(open_set) != 0):
-        _, gn, _, curr_matrix, _ = heapq.heappop(open_set)
-        if(curr_matrix == matrix):
-            return gn
-    return 0
+from totalContainer import findTotalContainers
 
 def addToSetAstar(curr_matrix, new_matrix, container, new_container, cost, actionList, open_set, child, row, col, og_lw, og_rw, tieBreak, maxActions):
     gn = cost + len(actionList)
@@ -26,21 +13,21 @@ def addToSetAstar(curr_matrix, new_matrix, container, new_container, cost, actio
     rw = right_weight(new_matrix, row, col)
     dif_lr = balance_calc(lw, rw)
     curr_state = State(dif_lr, lw, rw, False)
+    numberOfContainers = findTotalContainers(new_matrix, row, col)
 
-    if(gn > maxActions):
-        return gn
+    if(numberOfContainers <= 8):
+        if(gn > maxActions):
+            return gn
     
-    if(container.location.x == 1):
-        hn = dif_lr
-    
-    if(dif_lr < maxActions):
-        hn = dif_lr * (7 - container.location.y)
+        if(dif_lr < maxActions or container.location.x == 1):
+            hn = dif_lr
+        else:
+            if(gn <= maxActions):
+                hn = maxActions
     else:
-        if(gn <= maxActions):
-            hn = maxActions
-    
-    if(container.location.x == 1):
         hn = dif_lr
+
+    
     
     if(con2_balance_check(curr_state, og_lw, og_rw)):
         hn = 0

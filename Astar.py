@@ -29,7 +29,7 @@ def Astar(matrix, row, col, maxActions):
     open_set = []
     closed_set = set()
 
-    tieBreak = count()
+    tieBreak = count() #ensures each states have a different number
     start_matrix = copy.deepcopy(matrix)
     open_set.append((dif_lr, 0, 0, next(tieBreak), start_matrix, start_matrix[0][0]))
     heapq.heapify(open_set)
@@ -39,7 +39,8 @@ def Astar(matrix, row, col, maxActions):
     moveList = []
     stateList = []
     iteration = 0
-    key = tuple(tuple(row) for row in start_matrix)
+    key = tuple(tuple(row) for row in new_matrix) #iterate each row, and make it a tuple. Make key a tuple of tuples((1,2,3), (1,2,3)...)
+
     gnTable[key] = 0
     matrixSet.add(key)
     while(len(open_set) != 0): 
@@ -54,9 +55,12 @@ def Astar(matrix, row, col, maxActions):
             if(stateList[-1].dif_lr == 0):
                 stateList[-1].balanced == True
         else:
-            curr_state.balanced = con2_balance_check(curr_state, og_lw, og_rw)
+            if(con1_balance_check(curr_state, stateList[-2]) == True):
+                curr_state.balanced = con2_balance_check(curr_state, og_lw, og_rw)
             #if(curr_state.balanced == False):
                 #curr_state.balanced = con1_balance_check(curr_state, og_lw, og_rw)
+            else:
+                curr_state.balanced = con2_balance_check(curr_state, og_lw, og_rw)
         
 
         if(checkOneOnEachSide(curr_matrix, row, col) == True): #shipcase 3 edge case, 
@@ -126,10 +130,9 @@ def Astar(matrix, row, col, maxActions):
             # add last action info to path
             last_tuple = (last_container, park_loc, actionList, craneLogic, child[0][1], finished_matrix)
             path.append(last_tuple)
-            
             return moveList, finished_matrix, path, totalTime, totalMoves, totalNumContainers
-    
-        closed_key = tuple(tuple(row) for row in start_matrix)
+        
+        closed_key = tuple(tuple(row) for row in new_matrix)
         closed_set.add(closed_key)
         #made open_set copies because inSet removes elements in order to check if matrix is in the set
         if (lw > rw): #check left side
@@ -246,6 +249,7 @@ def Astar(matrix, row, col, maxActions):
                                                 gnTable[key] = cost + len(actionList)
                                 else:
                                  continue
+                            
 
             
             

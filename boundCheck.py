@@ -57,7 +57,7 @@ def pathToNewContainer(matrix, old_container, new_container, row):
                 matrix = right(matrix, old_x, old_y)
                 old_y += 1
                 actionList.append("RIGHT")
-            elif(old_x == row - 1 and matrix[old_x][old_y + 1] != "UNUSED"):
+            elif(old_x == row - 1 and matrix[old_x][old_y + 1].description != "UNUSED"):
                 actionList.append("UP")
                 actionList.append("RIGHT")
                 actionList.append("RIGHT")
@@ -80,7 +80,7 @@ def pathToNewContainer(matrix, old_container, new_container, row):
                 matrix = left(matrix, old_x, old_y)
                 old_y -= 1
                 actionList.append("LEFT")
-            elif(old_x == row - 1 and matrix[old_x][old_y - 1] != "UNUSED"):
+            elif(old_x == row - 1 and matrix[old_x][old_y - 1].description != "UNUSED"):
                 actionList.append("UP")
                 actionList.append("LEFT")
                 actionList.append("LEFT")
@@ -144,7 +144,7 @@ def craneMovements(matrix, old_container, new_container, row):
             if(matrix[old_x][old_y + 1].description == "UNUSED"):  #check if right cell is clear
                 old_y += 1
                 actionList.append("RIGHT")
-            elif(old_x == row - 1 and matrix[old_x][old_y + 1] != "UNUSED"):
+            elif(old_x == row - 1 and matrix[old_x][old_y + 1].description != "UNUSED"):
                 actionList.append("UP")
                 actionList.append("RIGHT")
                 actionList.append("RIGHT")
@@ -160,7 +160,7 @@ def craneMovements(matrix, old_container, new_container, row):
             if(matrix[old_x][old_y - 1].description == "UNUSED"): #check if left cell is avilaible
                 old_y -= 1
                 actionList.append("LEFT")
-            elif(old_x == row - 1 and matrix[old_x][old_y - 1] != "UNUSED"):
+            elif(old_x == row - 1 and matrix[old_x][old_y - 1].description != "UNUSED"):
                 actionList.append("UP")
                 actionList.append("LEFT")
                 actionList.append("LEFT")

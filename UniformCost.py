@@ -6,7 +6,7 @@ from State import con1_balance_check
 from State import con2_balance_check
 from totalContainer import findTotalContainers
 from boundCheck import find_nearest_empty_space_left, find_nearest_empty_space_right, pathToNewContainer, pathFromParkTocontainer, isEmpty
-from SetInclusion import inSet, addToSetUni
+from SetInclusion import addToSetUni
 from edgeCases import checkOneOnEachSide
 import time
 import copy #https://www.geeksforgeeks.org/python/copy-python-deep-copy-shallow-copy/
@@ -51,9 +51,14 @@ def Uniform_cost(matrix, row, col):
         stateList.append(curr_state) 
         iteration += 1
         End_time = time.time() - start_time
-        print(cost)
 
-        
+        if(numContainers < 8):
+            if(End_time >= 20):
+                return cost * numContainers
+        else:
+            if(End_time >= 120):
+                return cost * numContainers
+
         if(len(stateList) <= 1): #if only 1 state in list just check if difference is 0 because we have not moved yet
             if(stateList[-1].dif_lr == 0):
                 stateList[-1].balanced == True
