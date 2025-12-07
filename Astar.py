@@ -39,7 +39,7 @@ def Astar(matrix, row, col, maxActions):
     moveList = []
     stateList = []
     iteration = 0
-    key = tuple(tuple(row) for row in new_matrix) #iterate each row, and make it a tuple. Make key a tuple of tuples((1,2,3), (1,2,3)...)
+    key = tuple(tuple(row) for row in start_matrix) #iterate each row, and make it a tuple. Make key a tuple of tuples((1,2,3), (1,2,3)...)
 
     gnTable[key] = 0
     matrixSet.add(key)
@@ -132,7 +132,7 @@ def Astar(matrix, row, col, maxActions):
             path.append(last_tuple)
             return moveList, finished_matrix, path, totalTime, totalMoves, totalNumContainers
         
-        closed_key = tuple(tuple(row) for row in new_matrix)
+        closed_key = tuple(tuple(row) for row in curr_matrix)
         closed_set.add(closed_key)
         #made open_set copies because inSet removes elements in order to check if matrix is in the set
         if (lw > rw): #check left side
