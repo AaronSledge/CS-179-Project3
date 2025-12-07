@@ -51,7 +51,7 @@ def RunProgram():
                     maxActions = 10
                     # runs Astar to find a solution
                     movelist, new_matrix, path, totaltime, totalmoves, totalcontainers = Astar(m, row, col, maxActions)
-                    
+
                     if (totalmoves > 1):
                         print(f"Solution has been found, it will take \n {totalmoves} moves \n {totaltime} minutes \n")
                     else:
@@ -72,8 +72,6 @@ def RunProgram():
                     # completes the cycle and tells the operator where the updated manifest is located
                     WriteCycleFinished(filename, manifestname)
 
-                    for i in range(len(movelist)):
-                        print(f"Moves: {movelist[i]}")
 
                     userIn = input("Enter S to stop \n")
                     if (userIn == "S" or userIn == "s"):
