@@ -16,7 +16,7 @@ from LogFile import WriteComment
 from totalContainer import findTotalContainers
 from FinalManifest import CreateFinalManifest
 from ScreenToUser import UserInteraction
-from Visualizer import visualize_path
+#from Visualizer import visualize_path
 import os
 
 def RunProgram():
@@ -41,7 +41,7 @@ def RunProgram():
                 col = 12
                 m = matrix(ship.listContainers, row, col)
                 totalcontainers = findTotalContainers(m, row, col)
-                if (totalcontainers < 16):
+                if (totalcontainers <= 16):
                     print(f"{manifestname[0:len(manifestname)-4]} has {totalcontainers} containers\n")
                     WriteManifestNameToFile(filename, manifestname, totalcontainers)
                     print("Computing a solution... \n")
@@ -51,23 +51,29 @@ def RunProgram():
                     maxActions = 10
                     # runs Astar to find a solution
                     movelist, new_matrix, path, totaltime, totalmoves, totalcontainers = Astar(m, row, col, maxActions)
-
+                    
                     if (totalmoves > 1):
                         print(f"Solution has been found, it will take \n {totalmoves} moves \n {totaltime} minutes \n")
                     else:
-                        print(f"Solution has been found, it will take \n {totalmoves} move \n {totaltime} minutes \n")
+                        if (totaltime == 1):
+                            print(f"Solution has been found, it will take \n {totalmoves} move \n {totaltime} minute \n")
+                        else:
+                            print(f"Solution has been found, it will take \n {totalmoves} move \n {totaltime} minutes \n")
 
                     WriteTotalMoveTimeToFile(filename, totalmoves, totaltime)
                     WritePathToFile(filename, path, totalmoves)
 
-                    visualize_path(m, path)
-
                     manifestname = os.path.splitext(os.path.basename(manifestname))[0]
                     manifestname += "OUTBOUND.txt"
-                    WriteCycleFinished(filename, manifestname)
 
                     # creates the final manifest file that will be emailed to the captain
                     CreateFinalManifest(manifestname, new_matrix)
+                    
+                    # completes the cycle and tells the operator where the updated manifest is located
+                    WriteCycleFinished(filename, manifestname)
+
+                    for i in range(len(movelist)):
+                        print(f"Moves: {movelist[i]}")
 
                     userIn = input("Enter S to stop \n")
                     if (userIn == "S" or userIn == "s"):
