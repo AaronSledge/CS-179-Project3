@@ -41,7 +41,6 @@ def RunProgram():
                 row = 8
                 col = 12
                 m = matrix(ship.listContainers, row, col)
-                print(m[0][0].weight)
                 totalcontainers = findTotalContainers(m, row, col)
                 if (totalcontainers <= 16):
                     print(f"{manifestname[0:len(manifestname)-4]} has {totalcontainers} containers\n")

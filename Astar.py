@@ -54,9 +54,12 @@ def Astar(matrix, row, col, maxActions):
             if(stateList[-1].dif_lr == 0):
                 stateList[-1].balanced == True
         else:
-            curr_state.balanced = con2_balance_check(curr_state, og_lw, og_rw)
+            if(con1_balance_check(curr_state, stateList[-2]) == True):
+                curr_state.balanced = con2_balance_check(curr_state, og_lw, og_rw)
             #if(curr_state.balanced == False):
                 #curr_state.balanced = con1_balance_check(curr_state, og_lw, og_rw)
+            else:
+                curr_state.balanced = con2_balance_check(curr_state, og_lw, og_rw)
         
 
         if(checkOneOnEachSide(curr_matrix, row, col) == True): #shipcase 3 edge case, 
@@ -75,8 +78,8 @@ def Astar(matrix, row, col, maxActions):
                     if (child[i][1] == curr_matrix):
                         if(craneLogic == True):
                             actionList = craneMovements(curr_matrix, child[i][4], parent, row)
-                            #path.append((child[i][4], parent, actionList))
-                            #moveList.append(actionList)
+                            path.append((child[i][4], parent, actionList))
+                            moveList.append(actionList)
                             totalTime += len(actionList)
                             totalMoves += 1
                             
