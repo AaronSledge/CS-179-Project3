@@ -75,8 +75,8 @@ def Astar(matrix, row, col, maxActions):
                     if (child[i][1] == curr_matrix):
                         if(craneLogic == True):
                             actionList = craneMovements(curr_matrix, child[i][4], parent, row)
-                            path.append((child[i][4], parent, actionList))
-                            moveList.append(actionList)
+                            #path.append((child[i][4], parent, actionList))
+                            #moveList.append(actionList)
                             totalTime += len(actionList)
                             totalMoves += 1
                             
@@ -120,7 +120,6 @@ def Astar(matrix, row, col, maxActions):
             park_loc = Container.Container(Container.Location(8, 1), "0000", "Crane")
             last_tuple = (last_container, park_loc, actionList)
             path.append(last_tuple)
-            
             return moveList, finished_matrix, path, totalTime, totalMoves, totalNumContainers
     
         closed_key = tuple(tuple(row) for row in start_matrix)
@@ -240,6 +239,7 @@ def Astar(matrix, row, col, maxActions):
                                                 gnTable[key] = cost + len(actionList)
                                 else:
                                  continue
+                            
 
             
             

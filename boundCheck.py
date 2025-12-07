@@ -57,7 +57,7 @@ def pathToNewContainer(matrix, old_container, new_container, row):
                 matrix = right(matrix, old_x, old_y)
                 old_y += 1
                 actionList.append("RIGHT")
-            elif(old_x == row - 1 and matrix[old_x][old_y + 1] != "UNUSED"):
+            elif(old_x == row - 1 and matrix[old_x][old_y + 1].description != "UNUSED"):
                 actionList.append("UP")
                 actionList.append("RIGHT")
                 actionList.append("RIGHT")
@@ -80,7 +80,7 @@ def pathToNewContainer(matrix, old_container, new_container, row):
                 matrix = left(matrix, old_x, old_y)
                 old_y -= 1
                 actionList.append("LEFT")
-            elif(old_x == row - 1 and matrix[old_x][old_y - 1] != "UNUSED"):
+            elif(old_x == row - 1 and matrix[old_x][old_y - 1].description != "UNUSED"):
                 actionList.append("UP")
                 actionList.append("LEFT")
                 actionList.append("LEFT")
@@ -138,14 +138,13 @@ def craneMovements(matrix, old_container, new_container, row):
     old_y = old_container.location.y - 1
     new_x = new_container.location.x - 1
     new_y = new_container.location.y - 1
-    print(old_x, old_y, new_x, new_y)
     actionList = []
     while(old_x != new_x or old_y != new_y): #keep moving till we reach new spot
         if(old_y < new_y): #if we need to move to the right
             if(matrix[old_x][old_y + 1].description == "UNUSED"):  #check if right cell is clear
                 old_y += 1
                 actionList.append("RIGHT")
-            elif(old_x == row - 1 and matrix[old_x][old_y + 1] != "UNUSED"):
+            elif(old_x == row - 1 and matrix[old_x][old_y + 1].description != "UNUSED"):
                 actionList.append("UP")
                 actionList.append("RIGHT")
                 actionList.append("RIGHT")
@@ -161,7 +160,7 @@ def craneMovements(matrix, old_container, new_container, row):
             if(matrix[old_x][old_y - 1].description == "UNUSED"): #check if left cell is avilaible
                 old_y -= 1
                 actionList.append("LEFT")
-            elif(old_x == row - 1 and matrix[old_x][old_y - 1] != "UNUSED"):
+            elif(old_x == row - 1 and matrix[old_x][old_y - 1].description != "UNUSED"):
                 actionList.append("UP")
                 actionList.append("LEFT")
                 actionList.append("LEFT")

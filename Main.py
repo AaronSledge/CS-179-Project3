@@ -17,6 +17,7 @@ from totalContainer import findTotalContainers
 from FinalManifest import CreateFinalManifest
 from ScreenToUser import UserInteraction
 from Visualizer import visualize_path
+from runtime import runTime
 import os
 
 def RunProgram():
@@ -40,15 +41,16 @@ def RunProgram():
                 row = 8
                 col = 12
                 m = matrix(ship.listContainers, row, col)
+                print(m[0][0].weight)
                 totalcontainers = findTotalContainers(m, row, col)
-                if (totalcontainers < 16):
+                if (totalcontainers <= 16):
                     print(f"{manifestname[0:len(manifestname)-4]} has {totalcontainers} containers\n")
                     WriteManifestNameToFile(filename, manifestname, totalcontainers)
                     print("Computing a solution... \n")
 
-                    #maxActions, time_so_far = Uniform_cost(m, row, col)
+                    maxActions = Uniform_cost(m, row, col)
 
-                    maxActions = 10
+                    
                     # runs Astar to find a solution
                     movelist, new_matrix, path, totaltime, totalmoves, totalcontainers = Astar(m, row, col, maxActions)
 
@@ -72,6 +74,7 @@ def RunProgram():
                     userIn = input("Enter S to stop \n")
                     if (userIn == "S" or userIn == "s"):
                         print("End program")
+                        #runTime()
                         exit()
                 else:
                     print("\nThe Manifest has more than 16 containers.\n")
