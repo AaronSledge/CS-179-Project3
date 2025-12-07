@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import copy
 
-def draw_matrix(matrix, src=None, dst=None, title=""):
+def draw_matrix(matrix, src=None, dst=None, title="", current_step=0, overall_path=None):
     # use global fig and axes to create only one window
     global g_fig, g_ax
     ax = g_ax
@@ -30,7 +30,8 @@ def draw_matrix(matrix, src=None, dst=None, title=""):
 
     ax.add_patch(plt.Rectangle((0, 0), 1, 1, facecolor=crane_color, edgecolor="black", linewidth=0.6))
 
-    ax.text(0.5, 0.5, "Crane", ha="center", va="center", fontsize=8)
+    if (current_step == 0) or (current_step == len(overall_path)):
+        ax.text(0.5, 0.5, "Crane", ha="center", va="center", fontsize=8)
 
     # draw all 8 ship container rows
     for r in range(rows):
@@ -61,10 +62,11 @@ def draw_matrix(matrix, src=None, dst=None, title=""):
     # update the window
     fig.canvas.draw()
     fig.canvas.flush_events()
+    fig.canvas.manager.set_window_title('Container Movements')
     plt.pause(0.05)
 
 
-def apply_move(matrix, src, dst):
+def apply_move(matrix, src, dst, crane_logic):
 
     # ignore crane only moves
     if src.description == "Crane" or dst.description == "Crane":
@@ -94,12 +96,13 @@ def apply_move(matrix, src, dst):
     dst_cell = matrix[d_i][d_j]
     src_cell = matrix[s_i][s_j]
 
-    dst_cell.description = src_cell.description
-    dst_cell.weight = src_cell.weight
+    if (crane_logic == False):
+        dst_cell.description = src_cell.description
+        dst_cell.weight = src_cell.weight
 
-    # clear the old source location
-    src_cell.description = "UNUSED"
-    src_cell.weight = "{00000}"
+        # clear the old source location
+        src_cell.description = "UNUSED"
+        src_cell.weight = "{00000}"
 
     return matrix
 
@@ -122,7 +125,7 @@ def visualize_path(start_matrix, path):
     working = copy.deepcopy(start_matrix)
     print("\nVisualization window opened...\n")
 
-    for i, (src, dst, _) in enumerate(path):
+    for i, (src, dst, moveList, crane_logic) in enumerate(path):
 
         # make fake container object for parked crane (9,1)
         park_container = type(src)(type(src.location)(9,1), "{00000}", "Crane")
@@ -148,12 +151,12 @@ def visualize_path(start_matrix, path):
             dst_for_highlight = dst
 
         # draw befpre the next move
-        draw_matrix(working, src=src_for_highlight, dst=dst_for_highlight, title=step_label + " (Before)")
+        draw_matrix(working, src=src_for_highlight, dst=dst_for_highlight, title=step_label + " (Before)", current_step=i, overall_path=path)
 
         input("Press ENTER to perform this move\n")
 
         # apply the move to the matrix copy
-        working = apply_move(working, src, dst)
+        working = apply_move(working, src, dst, crane_logic)
 
         # draw after the move is made (no highlight needed for the after step is done shown)
         draw_matrix(working, title=step_label + " (After)")

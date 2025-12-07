@@ -56,19 +56,23 @@ def RunProgram():
                     if (totalmoves > 1):
                         print(f"Solution has been found, it will take \n {totalmoves} moves \n {totaltime} minutes \n")
                     else:
-                        print(f"Solution has been found, it will take \n {totalmoves} move \n {totaltime} minutes \n")
+                        if (totaltime == 1):
+                            print(f"Solution has been found, it will take \n {totalmoves} move \n {totaltime} minute \n")
+                        else:
+                            print(f"Solution has been found, it will take \n {totalmoves} move \n {totaltime} minutes \n")
 
                     WriteTotalMoveTimeToFile(filename, totalmoves, totaltime)
                     WritePathToFile(filename, path, totalmoves)
 
-                    visualize_path(m, path)
-
                     manifestname = os.path.splitext(os.path.basename(manifestname))[0]
                     manifestname += "OUTBOUND.txt"
-                    WriteCycleFinished(filename, manifestname)
 
                     # creates the final manifest file that will be emailed to the captain
                     CreateFinalManifest(manifestname, new_matrix)
+                    
+                    # completes the cycle and tells the operator where the updated manifest is located
+                    WriteCycleFinished(filename, manifestname)
+
 
                     userIn = input("Enter S to stop \n")
                     if (userIn == "S" or userIn == "s"):

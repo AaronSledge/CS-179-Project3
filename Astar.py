@@ -73,18 +73,24 @@ def Astar(matrix, row, col, maxActions):
             totalTime = 0
             totalMoves = 0
             parent = 0
+
+            # craneLogic variable accounts for if were only moving the crane to a new location or an actual container
             craneLogic = False
             while(curr_matrix != start_matrix):
                 for i in range(len(child)):
                     if (child[i][1] == curr_matrix):
                         if(craneLogic == True):
                             actionList = craneMovements(curr_matrix, child[i][4], parent, row)
-                            path.append((child[i][4], parent, actionList))
+
+                                                                                    # child[i][0] is the matrix before the move, child[i][1]
+                                                                                    # is the matrix after the move
+                            path.append((child[i][4], parent, actionList, craneLogic, child[i][0], child[i][1]))
                             moveList.append(actionList)
                             totalTime += len(actionList)
                             totalMoves += 1
+                            craneLogic = False
                             
-                        path.append((child[i][3], child[i][4], child[i][2]))
+                        path.append((child[i][3], child[i][4], child[i][2], craneLogic, child[i][0], child[i][1]))
                         totalTime += len(child[i][2])
                         totalMoves += 1
                         moveList.append(child[i][2]) #add to set of actions for each move
@@ -108,8 +114,10 @@ def Astar(matrix, row, col, maxActions):
             #         right_count += 1
             #     elif(actionList[i] == "DOWN"):
             #         down_count += 1
-            new_loc = path[0][0]
-            initial_tuple = (first_container, new_loc, actionList)
+
+            # park location is a container object representing the park position for the crane
+            park_loc = Container.Container(Container.Location(9, 1), "0000", "Crane")
+            initial_tuple = (park_loc, first_container, actionList, craneLogic, start_matrix, child[len(child) - 1][1])
             path.insert(0, initial_tuple)
 
             last_container = path[-1][1]
@@ -120,9 +128,7 @@ def Astar(matrix, row, col, maxActions):
             totalMoves += 1
 
             # add last action info to path
-            # park location is a container object representing the park position for the crane
-            park_loc = Container.Container(Container.Location(8, 1), "0000", "Crane")
-            last_tuple = (last_container, park_loc, actionList)
+            last_tuple = (last_container, park_loc, actionList, craneLogic, child[0][1], finished_matrix)
             path.append(last_tuple)
             return moveList, finished_matrix, path, totalTime, totalMoves, totalNumContainers
         
