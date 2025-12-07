@@ -15,9 +15,10 @@ def addToSetAstar(curr_matrix, new_matrix, container, new_container, cost, actio
     curr_state = State(dif_lr, lw, rw, False)
     numberOfContainers = findTotalContainers(new_matrix, row, col)
 
+    if(gn > maxActions):
+        return gn
+    
     if(numberOfContainers <= 8):
-        if(gn > maxActions):
-            return gn
     
         if(dif_lr < maxActions or container.location.x == 1):
             hn = dif_lr

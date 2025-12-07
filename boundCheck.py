@@ -141,15 +141,9 @@ def craneMovements(matrix, old_container, new_container, row):
     actionList = []
     while(old_x != new_x or old_y != new_y): #keep moving till we reach new spot
         if(old_y < new_y): #if we need to move to the right
-            if(matrix[old_x][old_y + 1].description == "UNUSED"):  #check if right cell is clear
+            if(matrix[old_x][old_y + 1].description == "UNUSED" or matrix[old_x][old_y + 1].description == matrix[new_x][new_y].description):  #check if right cell is clear
                 old_y += 1
                 actionList.append("RIGHT")
-            elif(old_x == row - 1 and matrix[old_x][old_y + 1].description != "UNUSED"):
-                actionList.append("UP")
-                actionList.append("RIGHT")
-                actionList.append("RIGHT")
-                actionList.append("DOWN")
-                old_y += 2
             else:
                 old_x += 1
                 actionList.append("UP")
@@ -157,16 +151,9 @@ def craneMovements(matrix, old_container, new_container, row):
             old_x -= 1
             actionList.append("DOWN")
         elif(old_y > new_y): # we need to move left
-            if(matrix[old_x][old_y - 1].description == "UNUSED"): #check if left cell is avilaible
+            if(matrix[old_x][old_y - 1].description == "UNUSED" or matrix[old_x][old_y - 1].description == matrix[new_x][new_y].description): #check if left cell is avilaible
                 old_y -= 1
                 actionList.append("LEFT")
-            elif(old_x == row - 1 and matrix[old_x][old_y - 1].description != "UNUSED"):
-                actionList.append("UP")
-                actionList.append("LEFT")
-                actionList.append("LEFT")
-                actionList.append("DOWN")
-                old_y -= 2
-            
             else:
                 old_x += 1
                 actionList.append("UP") 

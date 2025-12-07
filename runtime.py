@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 def runTime():
     numContainers = [1, 4, 8]
     timeUCS = [1, 236, 764]
-    timeAstar = [21, 22, 129]
+    timeAstar = [21, 22, 23]
 
     plt.figure(figsize=(10, 6))
     plt.xticks(range(1,8))

@@ -52,12 +52,8 @@ def Uniform_cost(matrix, row, col):
         iteration += 1
         End_time = time.time() - start_time
 
-        if(numContainers < 8):
-            if(End_time >= 20):
-                return cost * numContainers
-        else:
-            if(End_time >= 120):
-                return cost * numContainers
+        if(End_time >= 20):
+            return cost * numContainers
 
         if(len(stateList) <= 1): #if only 1 state in list just check if difference is 0 because we have not moved yet
             if(stateList[-1].dif_lr == 0):
