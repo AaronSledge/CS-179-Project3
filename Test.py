@@ -24,6 +24,13 @@ from itertools import count
 from Astar import Astar
 from UniformCost import Uniform_cost
 import time
+from LogFile import CreateLogFile
+from LogFile import GetDateFormatted
+from LogFile import WriteManifestNameToFile
+from LogFile import WriteTotalMoveTimeToFile
+from LogFile import WriteCycleFinished
+from LogFile import WriteCraneAction
+from LogFile import WriteComment
 
 # This tests if a file is read in correctly
 class TestFileRead(unittest.TestCase):
@@ -97,6 +104,12 @@ class TestStates(unittest.TestCase):
     def test_bc(self):
         bc = balance_calc(10, 10)
         self.assertEqual(bc, 0, "The balance calculation is not correct")
+
+    def test_con1bc(self):
+        cs = State(0, 10, 10, True)
+        ps = State(0, 10, 10, True)
+        check = con1_balance_check(cs, ps)
+        self.assertEqual(check, True, "The balance condition 2 is not satisfied")
 
     def test_con2bc(self):
         s = State(0, 10, 10, True)
@@ -202,7 +215,78 @@ class TestAlgo(unittest.TestCase):
         End_time = time.time() - start_time
         self.assertLess(End_time, 25, "Uniform cost takes too long to return upper bound")
 
+class TestLogFile(unittest.TestCase):
+    def test_createlf(self):
+        filename = CreateLogFile()
+        self.assertEqual(filename[-4:], ".txt", "The log file is not made correctly")
+    
+    def test_getdate(self):
+        format = GetDateFormatted()
+        self.assertEqual(type(format), type("This is a string"), "The date format is not made correctly")
+    
+    # Run all of these tests below togther, they test the outputting to the logfile for each specific function
+    # It is just easier to run them all in the same file and check if the lines have some part of the correct output string
+    # Another thing to note is that before you run these tests the testlog file needs to be cleared of any information in it to make it work correclty 
+    def test_writeC(self):
+        filename = "testlog.txt"
+        stringC = "hello"
+        WriteComment(filename, stringC)
+        file = open(filename)
+        line = file.readline()
+        file.close()
+        self.assertEqual(line[-7:-2], "hello", "The comment was not written to the log file")
+    
+    def test_writeCF(self):
+        filename = "testlog.txt"
+        manifestname = "manifest.txt"
+        WriteCycleFinished(filename, manifestname)
+        file = open(filename)
+        for i in range(2):
+            line = file.readline()
+        substring = line[-12:-3]
+        file.close()
+        self.assertEqual(substring, "displayed", "The cycle finished line was not written to the log file")
+    
+    def test_writeCRA(self):
+        filename = "testlog.txt"
+        action = "action \n"
+        WriteCraneAction(filename, action)
+        file = open(filename)
+        for i in range(3):
+            line = file.readline()
+        file.close()
+        self.assertEqual(len(line[-8:-2]), len(action) - 2, "The crane action line was not written to the log file")
 
+    def test_writeMNTF(self):
+        filename = "testlog.txt"
+        manifestname = "manifest.txt"
+        numcontainers = 10
+        WriteManifestNameToFile(filename, manifestname, numcontainers)
+        file = open(filename)
+        for i in range(4):
+            line = file.readline()
+        substring = line[-7:-3]
+        file.close
+        self.assertEqual(substring, "ship", "The manifest name was not written to the log file")
+
+    def test_writeMTTF(self):
+        filename = "testlog.txt"
+        nummoves = 10
+        numtime = 10
+        WriteTotalMoveTimeToFile(filename, nummoves, numtime)
+        file = open(filename)
+        for i in range(5):
+            line = file.readline()
+        substring = line[-10:-3]
+        file.close()
+        self.assertEqual(substring, "minutes", "The number of moves and number of time was not written to the log file")
     
 if __name__ == "__main__":
     unittest.main()
+
+
+
+
+
+
+

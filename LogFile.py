@@ -285,7 +285,15 @@ def draw_matrix(matrix, src=None, dst=None, title="", current_step=0, overall_pa
 
             # Draw label text inside cell
             if desc not in ("NAN", "UNUSED", "Crane"):
-                ax.text(c + 0.5, draw_y + 0.5, desc, ha="center", va="center", fontsize=8, color="black")
+                descarray = desc.split(" ")
+                desc2 = ""
+                for i in range(len(descarray)):
+                    if (i < len(descarray) - 1):
+                        desc2 += descarray[i] + "\n"
+                    else:
+                        desc2 += descarray[i]
+            
+                ax.text(c + 0.5, draw_y + 0.5, desc2, ha="center", va="center", fontsize=8, color="black")
 
     # update the window
     fig.canvas.draw()
