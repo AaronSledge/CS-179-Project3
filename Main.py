@@ -2,22 +2,20 @@ from FileRead import FileRead
 
 from Matrix import matrix
 from Container import Ship
-from Operation import right, left, up, down
+# from Operation import right, left, up, down
 from Astar import Astar
 from UniformCost import Uniform_cost
-from edgeCases import checkOneOnEachSide, checkIfNearlyEmpty, checkAllZeroes
-import heapq
+# from edgeCases import checkOneOnEachSide, checkIfNearlyEmpty, checkAllZeroes
+# import heapq
 from LogFile import CreateLogFile
 from LogFile import WriteManifestNameToFile
 from LogFile import WriteTotalMoveTimeToFile
 from LogFile import WritePathToFile
 from LogFile import WriteCycleFinished
-from LogFile import WriteComment
+# from LogFile import WriteComment
 from totalContainer import findTotalContainers
 from FinalManifest import CreateFinalManifest
-from ScreenToUser import UserInteraction
-from Visualizer import visualize_path
-from runtime import runTime
+# from runtime import runTime
 import os
 
 def RunProgram():
@@ -77,7 +75,6 @@ def RunProgram():
                     userIn = input("Enter S to stop \n")
                     if (userIn == "S" or userIn == "s"):
                         print("End program")
-                        #runTime()
                         exit()
                 else:
                     print("\nThe Manifest has more than 16 containers.\n")
