@@ -1,1 +1,2 @@
 # CS-179-Project3
+You will want to download all the files in the repo into a folder. Then add in the manifest in the folder. Then simply go to your command prompt on your operating system and make sure the path matches the one where you put your folder. Make sure you have python installed on your computer and run python Main.py. Then enter in the name of the manifest (make sure you include the “.txt” at the end). The program will run continuously unless you press S when prompted.
