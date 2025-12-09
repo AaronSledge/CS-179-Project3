@@ -2,20 +2,15 @@ from FileRead import FileRead
 
 from Matrix import matrix
 from Container import Ship
-# from Operation import right, left, up, down
 from Astar import Astar
 from UniformCost import Uniform_cost
-# from edgeCases import checkOneOnEachSide, checkIfNearlyEmpty, checkAllZeroes
-# import heapq
 from LogFile import CreateLogFile
 from LogFile import WriteManifestNameToFile
 from LogFile import WriteTotalMoveTimeToFile
 from LogFile import WritePathToFile
 from LogFile import WriteCycleFinished
-# from LogFile import WriteComment
 from totalContainer import findTotalContainers
 from FinalManifest import CreateFinalManifest
-# from runtime import runTime
 import os
 
 def RunProgram():
